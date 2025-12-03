@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usman, Happy Birthday!</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merienda:wght@700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Dark theme for a festive night look */
+            color: #ffffff;
+        }
+
+        /* Custom styles for the cake and candles */
+        .cake {
+            background-color: #6a0572; /* Deep purple cake */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), inset 0 -5px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .icing {
+            background-color: #f7a2d4; /* Pink icing */
+            box-shadow: 0 5px 0 #e886c5;
+        }
+
+        .candle {
+            cursor: pointer;
+            transition: transform 0.1s ease, opacity 0.3s ease;
+        }
+
+        .candle:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .wick {
+            background-color: #333;
+        }
+
+        .flame {
+            /* Initially hidden */
+            opacity: 0;
+            background-color: #ffcc00; /* Yellow base */
+            border-radius: 50% 50% 30% 30%;
+            box-shadow: 0 0 10px 3px #ff9900, 0 0 20px 5px #ff6600; /* Subtle glow */
+            transition: opacity 0.5s ease;
+        }
+
+        .candle.lit .flame {
+            /* Glow effect when lit */
+            opacity: 1;
+            background: radial-gradient(circle at 50% 0%, #ffe400 0%, #ff9900 50%, transparent 100%);
+            box-shadow: 0 0 15px 5px #ffcc00, 0 0 30px 10px #ff6600;
+        }
+
+        /* Message Box styling */
+        #birthday-message {
+            font-family: 'Merienda', cursive;
+            background: #2a2a4e;
+            color: #ffeb3b;
+            text-shadow: 1px 1px 3px #000;
+            border: 3px solid #f7a2d4;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-xl text-center">
+
+        <!-- Main Heading -->
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-pink-300">
+            Usman, Happy Birthday!
+        </h1>
+        
+        <!-- Instruction -->
+        <p id="instruction" class="text-lg mb-8 text-gray-300 font-medium transition duration-500">
+            Saari 8 mom-battiyan jalao taaki Message khul jaaye!
+        </p>
+
+        <!-- Cake & Candles Area -->
+        <div class="relative w-full h-40 md:h-64 mx-auto mb-10">
+            
+            <!-- Candles (Flex container for candles) -->
+            <div id="candle-container" class="absolute inset-x-0 top-0 flex justify-center space-x-2 md:space-x-4 h-full z-10">
+                <!-- 8 Candles are created using JavaScript below -->
+            </div>
+
+            <!-- Icing (Top layer) -->
+            <div class="icing absolute bottom-0 left-0 right-0 h-10 md:h-16 rounded-t-full"></div>
+            
+            <!-- Cake Base -->
+            <div class="cake absolute bottom-0 left-0 right-0 h-24 md:h-36 rounded-2xl"></div>
+
+        </div>
+
+        <!-- Hidden Birthday Message -->
+        <div id="birthday-message" class="p-8 mt-12 rounded-xl shadow-xl hidden">
+            <h2 class="text-3xl font-bold mb-4">Message Revealed! Happy Birthday, Love! 🎉</h2>
+            <p class="text-xl leading-relaxed">
+                To the most *amazing person I know*, Usman!
+                <br><br>
+                Har saal ki tarah, yeh saal bhi sirf aapka hai. Meri duaa hai ke aapki zindagi hamesha khushiyon aur kamyabi se chamakti rahe. Aap sirf ache nahi, aap behtareen hain!
+                <br><br>
+                Happy Birthday Love! Aaj ka din khub enjoy karna.
+            </p>
+            <p class="text-lg font-bold text-pink-300 mt-6">
+                ~ With all my love, Tayyaba.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Get the application ID from the global variable (required for Canvas environment)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        const NUM_CANDLES = 8;
+        let litCandlesCount = 0;
+        const candleContainer = document.getElementById('candle-container');
+        const birthdayMessage = document.getElementById('birthday-message');
+        const instructionText = document.getElementById('instruction');
+
+        /**
+         * Creates a single candle element with its wick and flame.
+         * @param {number} id - The unique ID for the candle.
+         * @returns {HTMLElement} The candle div element.
+         */
+        function createCandle(id) {
+            const candle = document.createElement('div');
+            candle.id = `candle-${id}`;
+            candle.className = 'candle relative w-3 h-10 md:w-4 md:h-12 bg-pink-400 rounded-sm mx-1 shadow-md';
+            candle.setAttribute('data-lit', 'false');
+            
+            // Wick element
+            const wick = document.createElement('div');
+            wick.className = 'wick absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-1.5 md:h-2';
+            
+            // Flame element (initially hidden)
+            const flame = document.createElement('div');
+            flame.className = 'flame absolute -top-3 md:-top-5 left-1/2 -translate-x-1/2 w-3 h-5 md:w-4 md:h-7';
+
+            candle.appendChild(wick);
+            candle.appendChild(flame);
+            
+            // Add click listener
+            candle.addEventListener('click', () => toggleCandle(candle));
+
+            return candle;
+        }
+
+        /**
+         * Toggles the lit state of a candle and updates the game state.
+         * @param {HTMLElement} candleElement - The candle element that was clicked.
+         */
+        function toggleCandle(candleElement) {
+            const isLit = candleElement.getAttribute('data-lit') === 'true';
+
+            if (isLit) {
+                // Turn off
+                candleElement.classList.remove('lit');
+                candleElement.setAttribute('data-lit', 'false');
+                litCandlesCount--;
+            } else {
+                // Turn on
+                candleElement.classList.add('lit');
+                candleElement.setAttribute('data-lit', 'true');
+                litCandlesCount++;
+            }
+
+            // Check win condition
+            checkWinCondition();
+        }
+
+        /**
+         * Checks if all candles are lit and reveals the message if true.
+         */
+        function checkWinCondition() {
+            if (litCandlesCount === NUM_CANDLES) {
+                // All candles are lit!
+                birthdayMessage.classList.remove('hidden');
+                instructionText.textContent = 'Message Revealed! Happy Birthday, Love!';
+                instructionText.classList.remove('text-gray-300');
+                instructionText.classList.add('text-yellow-400', 'font-bold', 'text-xl');
+            } else {
+                // Keep message hidden if not all are lit
+                birthdayMessage.classList.add('hidden');
+                instructionText.textContent = `Saari ${NUM_CANDLES} mom-battiyan jalao taaki tumhara khaas 'Happy Birthday' Message khul jaaye! (${litCandlesCount}/${NUM_CANDLES} jali hui)`;
+                instructionText.classList.remove('text-yellow-400', 'font-bold', 'text-xl');
+                instructionText.classList.add('text-gray-300');
+            }
+        }
+
+        /**
+         * Initializes the cake by generating all the candles.
+         */
+        function initializeCake() {
+            for (let i = 0; i < NUM_CANDLES; i++) {
+                const candle = createCandle(i);
+                candleContainer.appendChild(candle);
+            }
+            // Update instruction text on load
+            checkWinCondition(); 
+        }
+
+        // Start the game initialization
+        initializeCake();
+    </script>
+
+</body>
+</html>
+
